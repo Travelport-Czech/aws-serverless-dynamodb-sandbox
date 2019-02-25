@@ -12,7 +12,7 @@ package:
 provider:
   name: aws
   runtime: nodejs8.10
-  region: ${env:AWS_REGION}
+  region: ${env:DEFAULT_AWS_REGION}
   stage: dev
   profile: aws-serverless-dynamodb-sandbox
 custom:
