@@ -1,6 +1,7 @@
 service: aws-serverless-dynamodb-sandbox
 
 plugins:
+  - serverless-dotenv-plugin
   - serverless-webpack
   - serverless-dynamodb-local
   - serverless-offline
@@ -11,17 +12,17 @@ package:
 provider:
   name: aws
   runtime: nodejs8.10
-  region: eu-west-1
+  region: ${env:AWS_REGION}
   stage: dev
   profile: aws-serverless-dynamodb-sandbox
 custom:
   webpack:
-    webpackConfig: 'webpack.config.js'
+    webpackConfig: webpack.config.js
     includeModules: false
-    packager: 'yarn'
+    packager: yarn
   dynamodb:
     start:
-      port: 3001
+      port: ${env:LOCAL_DYNAMODB_PORT}
       inMemory: true
       heapInitial: 200m
       heapMax: 1g
@@ -32,8 +33,8 @@ custom:
     seed:
       test:
         sources:
-          - table: itemsTable
-            sources: [./src/itemsTableData.json]
+          - table: ${env:DB_TABLE_NAME_ITEMS}
+            sources: [./src/database/itemsTableData.json]
 functions:
   proxy:
     name: proxy
@@ -49,7 +50,7 @@ resources:
     WatchersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: itemsTable
+        TableName: ${env:DB_TABLE_NAME_ITEMS}
         AttributeDefinitions:
           - AttributeName: userId
             AttributeType: S

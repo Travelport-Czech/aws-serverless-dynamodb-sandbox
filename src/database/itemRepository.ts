@@ -1,10 +1,15 @@
 import { DynamoDB } from 'aws-sdk'
+import { getDocumentClient } from 'src/database/getDocumentClient'
 import { AppError } from 'src/errors/AppError'
-import { getDocumentClient } from 'src/getDocumentClient'
+import {AppLogicError} from 'src/errors/AppLogicError'
 import { Item } from 'src/Item'
 
 const documentClient = getDocumentClient()
-const tableName = 'itemsTable'
+const tableName: string | undefined = process.env.DB_TABLE_NAME_ITEMS
+
+if (!tableName) {
+  throw new AppLogicError('Missing table name')
+}
 
 export const getItemsByUserAndDate = async (userId: string, date: string): Promise<Item[]> => {
   const params: DynamoDB.DocumentClient.QueryInput = {
