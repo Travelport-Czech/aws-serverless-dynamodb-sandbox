@@ -2,6 +2,7 @@ import { Handler } from 'aws-lambda'
 import { AuthorizedApiLambdaEvent } from 'src/AuthorizedApiLambdaEvent'
 import { createApiResponse } from 'src/createApiResponse'
 import { AppError } from 'src/errors/AppError'
+import {Item} from 'src/Item'
 import * as itemRepository from 'src/itemRepository'
 import { LambdaApiResult } from 'src/LambdaApiResult'
 import { parseJson } from 'src/parseJson'
@@ -9,7 +10,7 @@ import { v1 } from 'uuid'
 
 export const index: Handler = async (event: AuthorizedApiLambdaEvent): Promise<LambdaApiResult> => {
   try {
-    const input: {[key: string]: any} = parseJson(event.body)
+    const input = parseJson(event.body)
     if (!input.hasOwnProperty('value')) {
       return createApiResponse({
         message: 'Missing attribute value.',
@@ -30,7 +31,7 @@ export const index: Handler = async (event: AuthorizedApiLambdaEvent): Promise<L
     // read items
     const items1 = await itemRepository.getAllItemsByUser('newUser')
 
-    const items2 = await itemRepository.getItemsByUserAndDate('newUser', '2018-12-24')
+    // const items2 = await itemRepository.getItemsByUserAndDate('newUser', '2018-12-24')
 
     // delete item
     await itemRepository.deleteWatcher(
@@ -39,8 +40,14 @@ export const index: Handler = async (event: AuthorizedApiLambdaEvent): Promise<L
       '00000000-0000-0000-0000-000000000001'
     )
 
+    const items = items1.map((item: Item) => {
+      return {
+        id: item.id.toString()
+      }
+    })
+
     return createApiResponse({
-      context: { items1, items2 },
+      context: {items},
       message: 'Done.',
       result: 'Success'
     })

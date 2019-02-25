@@ -1,9 +1,10 @@
 import { LambdaApiResult } from 'src/LambdaApiResult'
+import {UnknownNestedObject} from 'src/UnknownNestedObject'
 
 interface ApiResponseParams {
   readonly result: 'Success' | 'Error'
   readonly message: string
-  readonly context?: any
+  readonly context?: UnknownNestedObject
 }
 
 export const createApiResponse = (apiResponseParams: ApiResponseParams): LambdaApiResult => {

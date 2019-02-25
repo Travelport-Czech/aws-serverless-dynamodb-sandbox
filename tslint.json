@@ -1,26 +1,37 @@
 {
   "defaultSeverity": "error",
   "extends": [
-    "tslint-microsoft-contrib",
     "tslint:latest",
-    "tslint-config-standard"
+    "tslint-consistent-codestyle",
+    "tslint-eslint-rules",
+    "tslint-immutable",
+    "tslint-microsoft-contrib",
+    "tslint-config-prettier"
   ],
   "jsRules": {},
   "rules": {
     "no-submodule-imports": [true, "src"],
     "no-implicit-dependencies": [true, "dev", ["src"]],
-    "interface-name": [true, "never-prefix"],
-    "space-before-function-paren": [true, {
-      "anonymous": "always",
-      "named": "never",
-      "asyncArrow": "always"}],
-    "object-literal-key-quotes": [true, "as-needed"],
+    "typedef": [false, "variable-declaration"], // Typedef enforcement for variables that contain a function => duplicate function declaration
+    "no-use-before-declare": false, // useful only for var declaration
     "only-arrow-functions": true,
+    "interface-name": [true, "never-prefix"],
+    "jsx-boolean-value": ["never"],
+    "prefer-template": false,
     "type-literal-delimiter": false,
+    "no-unsafe-any": true,
+    "newline-per-chained-call": false,
     "strict-boolean-expressions": false,
-    "completed-docs": false
+    "completed-docs": false,
+    "mocha-no-side-effect-code": false,
+    // Immutability rules
+    "readonly-keyword": true,
+    "no-let": true,
+    "no-object-mutation": true,
+    "no-delete": true
   },
   "rulesDirectory": [
+    "node_modules/tslint-eslint-rules/dist/rules",
     "node_modules/tslint-microsoft-contrib"
   ]
 }
