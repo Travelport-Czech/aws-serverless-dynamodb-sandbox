@@ -1,4 +1,4 @@
-import { AppError } from 'src/errors/AppError'
+import { AppError } from '@/errors/AppError'
 
 export class InvalidJsonError extends AppError {
   constructor() {

@@ -33,8 +33,6 @@ data:
 
 ## Prepare deployment enviroment
 
-For OS Windows 10, visit https://github.com/prisma/serverless-plugin-typescript/issues/23
-
 ### Install AWS CLI
 
 1. Verify that Python and pip are both installed correctly with the following commands:

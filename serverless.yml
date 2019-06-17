@@ -21,15 +21,14 @@ custom:
     includeModules: false
     packager: yarn
   dynamodb:
+    stages:
+      - dev
     start:
       port: ${env:LOCAL_DYNAMODB_PORT}
       inMemory: true
-      heapInitial: 200m
-      heapMax: 1g
       migrate: true
       seed: true
       sharedDb: true
-      noStart: false
     seed:
       test:
         sources:

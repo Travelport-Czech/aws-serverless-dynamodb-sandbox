@@ -39,7 +39,7 @@ const config = {
             ["module-resolver", {
               "root": ["./src"],
               "alias": {
-                "src": "./src"
+                "@": "./src"
               }
             }],
           ]

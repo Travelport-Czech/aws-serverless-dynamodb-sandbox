@@ -1,12 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "esnext",
     "module": "es6",
     "sourceMap": true,
     "strict": true,
     "moduleResolution": "node",
-    "rootDir": "./src",
+    "rootDir": "./",
     "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "pretty": true,
     "declaration": true,
     "noImplicitAny": true,
@@ -15,8 +18,7 @@
     "noImplicitReturns": true,
     "suppressImplicitAnyIndexErrors": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": ".dist",
-    "jsx": "react"
+    "outDir": ".dist"
   },
   "include": [
     "src/**/*"

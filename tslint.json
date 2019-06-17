@@ -12,8 +12,8 @@
   ],
   "jsRules": {},
   "rules": {
-    "no-submodule-imports": [true, "src"],
-    "no-implicit-dependencies": [true, "dev", ["src"]],
+    "no-submodule-imports": [true, "@"],
+    "no-implicit-dependencies": [true, "dev", ["@"]],
     "typedef": [false, "variable-declaration"], // Typedef enforcement for variables that contain a function => duplicate function declaration
     "no-use-before-declare": false, // useful only for var declaration
     "only-arrow-functions": true,

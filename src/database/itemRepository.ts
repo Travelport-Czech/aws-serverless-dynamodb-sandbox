@@ -1,8 +1,8 @@
+import { getDocumentClient } from '@/database/getDocumentClient'
+import { AppError } from '@/errors/AppError'
+import { AppLogicError } from '@/errors/AppLogicError'
+import { Item } from '@/Item'
 import { DynamoDB } from 'aws-sdk'
-import { getDocumentClient } from 'src/database/getDocumentClient'
-import { AppError } from 'src/errors/AppError'
-import { AppLogicError } from 'src/errors/AppLogicError'
-import { Item } from 'src/Item'
 
 const documentClient = getDocumentClient()
 const tableName: string | undefined = process.env.DB_TABLE_NAME_ITEMS

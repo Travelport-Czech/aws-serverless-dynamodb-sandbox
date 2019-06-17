@@ -1,5 +1,5 @@
-import { InvalidJsonError } from 'src/errors/InvalidJsonError'
-import { UnknownNestedObject } from 'src/UnknownNestedObject'
+import { InvalidJsonError } from '@/errors/InvalidJsonError'
+import { UnknownNestedObject } from '@/UnknownNestedObject'
 
 export const parseJson = (data: string | undefined | null): UnknownNestedObject => {
   if (!data) {

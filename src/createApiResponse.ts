@@ -1,5 +1,5 @@
-import { LambdaApiResult } from 'src/LambdaApiResult'
-import { UnknownNestedObject } from 'src/UnknownNestedObject'
+import { LambdaApiResult } from '@/LambdaApiResult'
+import { UnknownNestedObject } from '@/UnknownNestedObject'
 
 interface ApiResponseParams {
   readonly result: 'Success' | 'Error'
