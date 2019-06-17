@@ -17,7 +17,7 @@ provider:
   profile: aws-serverless-dynamodb-sandbox
 custom:
   webpack:
-    webpackConfig: webpack.config.js
+    webpackConfig: config/webpack.config.js
     includeModules: false
     packager: yarn
   dynamodb:

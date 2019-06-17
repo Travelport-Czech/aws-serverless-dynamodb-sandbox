@@ -1,3 +1,4 @@
+import 'source-map-support/register'
 import { AuthorizedApiLambdaEvent } from '@/AuthorizedApiLambdaEvent'
 import { createApiResponse } from '@/createApiResponse'
 import * as itemRepository from '@/database/itemRepository'
