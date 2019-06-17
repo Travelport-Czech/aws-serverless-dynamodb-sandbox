@@ -12,8 +12,9 @@
   ],
   "jsRules": {},
   "rules": {
-    "no-submodule-imports": [true, "@"],
-    "no-implicit-dependencies": [true, "dev", ["@"]],
+    "no-submodule-imports": [true, "@", "source-map-support/register"],
+    "no-implicit-dependencies": [true, "dev", ["@", "source-map-support/register"]],
+    "no-import-side-effect": [true, { "ignore-pattern": "source-map-support/register" }],
     "typedef": [false, "variable-declaration"], // Typedef enforcement for variables that contain a function => duplicate function declaration
     "no-use-before-declare": false, // useful only for var declaration
     "only-arrow-functions": true,
@@ -34,7 +35,7 @@
     "prettier": [true, "config/prettier.config.js"]
   },
   "rulesDirectory": [
-    "node_modules/tslint-eslint-rules/dist/rules",
-    "node_modules/tslint-microsoft-contrib"
+    "../node_modules/tslint-eslint-rules/dist/rules",
+    "../node_modules/tslint-microsoft-contrib"
   ]
 }

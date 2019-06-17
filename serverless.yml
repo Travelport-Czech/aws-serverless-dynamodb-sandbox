@@ -35,15 +35,24 @@ custom:
           - table: ${env:DB_TABLE_NAME_ITEMS}
             sources: [./src/database/itemsTableData.json]
 functions:
-  proxy:
-    name: proxy
+  index:
+    name: index
     memorySize: 256
     timeout: 120
-    handler: src/index.index
+    handler: src/lambda/index.index
     events:
       - http:
           path: /
           method: post
+  status:
+    name: status
+    memorySize: 256
+    timeout: 120
+    handler: src/lambda/status.status
+    events:
+      - http:
+          path: /status
+          method: get
 resources:
   Resources:
     WatchersTable:

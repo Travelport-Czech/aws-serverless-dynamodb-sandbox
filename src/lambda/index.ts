@@ -1,4 +1,3 @@
-import 'source-map-support/register'
 import { AuthorizedApiLambdaEvent } from '@/AuthorizedApiLambdaEvent'
 import { createApiResponse } from '@/createApiResponse'
 import * as itemRepository from '@/database/itemRepository'
@@ -7,6 +6,7 @@ import { Item } from '@/Item'
 import { LambdaApiResult } from '@/LambdaApiResult'
 import { parseJson } from '@/parseJson'
 import { Handler } from 'aws-lambda'
+import 'source-map-support/register'
 import { v1 } from 'uuid'
 
 export const index: Handler = async (event: AuthorizedApiLambdaEvent): Promise<LambdaApiResult> => {
