@@ -9,11 +9,11 @@
     "node": ">=8.10"
   },
   "scripts": {
-    "lint": "tsc && tslint --project tsconfig.json --config tslint.json",
-    "autofix": "tslint --project tsconfig.json --config tslint.json --fix && prettier ./src/**/* --write --config config/prettier.config.js",
+    "lint": "tsc && tslint --project tsconfig.json --config config/tslint.json",
+    "autofix": "tslint --project tsconfig.json --config config/tslint.json --fix && prettier ./src/**/* --write --config config/prettier.config.js",
     "serverless": "node_modules/.bin/serverless",
     "deploy": "npm run lint && npm run serverless -- deploy",
-    "offline": "cross-env AWS_ACCESS_KEY_ID=none AWS_SECRET_ACCESS_KEY=none serverless offline start"
+    "offline": "cross-env AWS_ACCESS_KEY_ID=none AWS_SECRET_ACCESS_KEY=none serverless offline start --stage local"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
@@ -54,7 +54,8 @@
     "utf-8-validate": "^5.0.2",
     "uuid": "^3.3.2",
     "webpack": "^4.34.0",
-    "webpack-cli": "^3.3.4"
+    "webpack-cli": "^3.3.4",
+    "webpack-node-externals": "^1.7.2"
   },
   "resolutions": {
     "serverless-dynamodb-local/dynamodb-localhost": "git+https://github.com/Travelport-Czech/dynamodb-localhost.git#1049fe7c8dd5e8c92cd7fc1a4c7bb9b6a89b13a6"

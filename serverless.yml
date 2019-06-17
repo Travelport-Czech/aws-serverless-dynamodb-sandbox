@@ -13,7 +13,7 @@ provider:
   name: aws
   runtime: nodejs8.10
   region: ${env:DEFAULT_AWS_REGION}
-  stage: dev
+  stage: ${opt:stage}
   profile: aws-serverless-dynamodb-sandbox
 custom:
   webpack:
@@ -22,7 +22,7 @@ custom:
     packager: yarn
   dynamodb:
     stages:
-      - dev
+      - local
     start:
       port: ${env:LOCAL_DYNAMODB_PORT}
       inMemory: true

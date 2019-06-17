@@ -1,4 +1,5 @@
 const path = require('path')
+const nodeExternals = require('webpack-node-externals')
 const slsw = require('serverless-webpack')
 
 const entries = {}
@@ -13,6 +14,9 @@ const config = {
     minimize: true
   },
   entry: entries,
+  externals: process.env.NODE_ENV === 'local' ? [
+    nodeExternals()
+  ] : [/aws-sdk/],
   devtool: 'source-map',
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
@@ -47,10 +51,7 @@ const config = {
       }
     ],
   },
-  stats: {
-    colors: true,
-    reasons: true,
-  }
+  stats: 'minimal'
 }
 
 module.exports = config
