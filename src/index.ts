@@ -3,7 +3,7 @@ import { AuthorizedApiLambdaEvent } from 'src/AuthorizedApiLambdaEvent'
 import { createApiResponse } from 'src/createApiResponse'
 import * as itemRepository from 'src/database/itemRepository'
 import { AppError } from 'src/errors/AppError'
-import {Item} from 'src/Item'
+import { Item } from 'src/Item'
 import { LambdaApiResult } from 'src/LambdaApiResult'
 import { parseJson } from 'src/parseJson'
 import { v1 } from 'uuid'
@@ -34,11 +34,7 @@ export const index: Handler = async (event: AuthorizedApiLambdaEvent): Promise<L
     // const items2 = await itemRepository.getItemsByUserAndDate('newUser', '2018-12-24')
 
     // delete item
-    await itemRepository.deleteWatcher(
-      'defaultUser',
-      '2017-10-01',
-      '00000000-0000-0000-0000-000000000001'
-    )
+    await itemRepository.deleteWatcher('defaultUser', '2017-10-01', '00000000-0000-0000-0000-000000000001')
 
     const items = items1.map((item: Item) => {
       return {
@@ -47,7 +43,7 @@ export const index: Handler = async (event: AuthorizedApiLambdaEvent): Promise<L
     })
 
     return createApiResponse({
-      context: {items},
+      context: { items },
       message: 'Done.',
       result: 'Success'
     })

@@ -1,7 +1,7 @@
 import { DynamoDB } from 'aws-sdk'
 import { getDocumentClient } from 'src/database/getDocumentClient'
 import { AppError } from 'src/errors/AppError'
-import {AppLogicError} from 'src/errors/AppLogicError'
+import { AppLogicError } from 'src/errors/AppLogicError'
 import { Item } from 'src/Item'
 
 const documentClient = getDocumentClient()
@@ -25,8 +25,7 @@ export const getItemsByUserAndDate = async (userId: string, date: string): Promi
     TableName: tableName
   }
 
-  const data = await documentClient.query(params)
-    .promise()
+  const data = await documentClient.query(params).promise()
   if (!data || !data.Items || data.Count === 0) {
     return []
   }
@@ -67,8 +66,7 @@ export const deleteWatcher = async (userId: string, date: string, id: string): P
     TableName: tableName
   }
 
-  await documentClient.delete(params)
-    .promise()
+  await documentClient.delete(params).promise()
 }
 
 export const addItem = async (
@@ -88,8 +86,7 @@ export const addItem = async (
     Item: data,
     TableName: tableName
   }
-  await documentClient.put(params)
-    .promise()
+  await documentClient.put(params).promise()
 }
 
 export const getAllItemsByUser = async (userId: string): Promise<Item[]> => {

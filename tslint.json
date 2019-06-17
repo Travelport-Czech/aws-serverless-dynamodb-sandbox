@@ -6,7 +6,9 @@
     "tslint-eslint-rules",
     "tslint-immutable",
     "tslint-microsoft-contrib",
-    "tslint-config-prettier"
+    "tslint-plugin-prettier",
+    "tslint-config-prettier",
+    "tslint-config-security"
   ],
   "jsRules": {},
   "rules": {
@@ -28,7 +30,8 @@
     "readonly-keyword": true,
     "no-let": true,
     "no-object-mutation": true,
-    "no-delete": true
+    "no-delete": true,
+    "prettier": [true, "config/prettier.config.js"]
   },
   "rulesDirectory": [
     "node_modules/tslint-eslint-rules/dist/rules",
