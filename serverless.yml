@@ -33,7 +33,7 @@ custom:
       test:
         sources:
           - table: ${env:DB_TABLE_NAME_ITEMS}
-            sources: [./src/database/itemsTableData.json]
+            sources: [./tests/database/itemsTableData.json]
 functions:
   index:
     name: index
