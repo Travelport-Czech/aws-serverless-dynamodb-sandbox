@@ -3,18 +3,17 @@
 ## Needed applications
 
 * Node
-* Yarn (https://yarnpkg.com)
 
 ## Prepare development enviroment
 
 * Clone project
 * Install dependencies
 ```bash
-> yarn install
+> npm install
 ```
 * Install local database
 ```bash
-> sls dynamodb install
+> npx sls dynamodb install
 ``` 
 * Run offline
 ```bash
