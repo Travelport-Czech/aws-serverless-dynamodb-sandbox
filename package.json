@@ -6,7 +6,7 @@
   "license": "none",
   "private": true,
   "engines": {
-    "node": ">=8.10"
+    "node": ">=10"
   },
   "scripts": {
     "lint": "tsc && tslint --project tsconfig.json --config config/tslint.json",
