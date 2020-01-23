@@ -55,7 +55,7 @@ functions:
           method: get
 resources:
   Resources:
-    WatchersTable:
+    ItemsTable:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: ${env:DB_TABLE_NAME_ITEMS}
