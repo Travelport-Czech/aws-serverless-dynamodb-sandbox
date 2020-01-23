@@ -6,6 +6,9 @@
 
 ## Prepare development enviroment
 
+Authenticating to GitHub Packages
+see [there](https://help.github.com/en/github/managing-packages-with-github-packages/configuring-npm-for-use-with-github-packages#authenticating-to-github-packages)
+
 * Clone project
 * Install dependencies
 ```bash

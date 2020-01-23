@@ -47,12 +47,21 @@ export const index: Handler = async (event: AuthorizedApiLambdaEvent): Promise<L
   } catch (err) {
     // tslint:disable-next-line:no-console
     console.log('Error', err)
+
     if (err instanceof AppError) {
       return createApiResponse({
         result: 'Error',
         message: err.message
       })
     }
+
+    if (err instanceof Error) {
+      return createApiResponse({
+        result: 'Error',
+        message: err.message
+      })
+    }
+
     throw err
   }
 }
