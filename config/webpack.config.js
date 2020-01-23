@@ -28,7 +28,7 @@ const config = {
         loader: 'babel-loader',
         options: {
           presets: [
-            ['@babel/preset-env', { targets: { node: '8.10' } }],
+            ['@babel/preset-env', { targets: { node: '10' } }],
             '@babel/typescript'
           ],
           plugins: [
