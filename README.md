@@ -12,7 +12,7 @@ see [there](https://help.github.com/en/github/managing-packages-with-github-pack
 * Clone project
 * Install dependencies
 ```bash
-> npm install
+> npm ci
 ```
 * Install local database
 ```bash
