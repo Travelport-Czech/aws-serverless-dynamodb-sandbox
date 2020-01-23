@@ -1,5 +1,5 @@
 {
-  "name": "proxy-gol-aws",
+  "name": "aws-serverless-dynamodb-sandbox",
   "version": "1.0.0",
   "main": "index.js",
   "author": "michal.bures@travelportgds.cz",
