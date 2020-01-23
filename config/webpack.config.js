@@ -10,19 +10,17 @@ const config = {
     minimize: true
   },
   entry: slsw.lib.entries,
-  externals: process.env.NODE_ENV === 'local' ? [
-    nodeExternals()
-  ] : [/aws-sdk/],
+  externals: process.env.NODE_ENV === 'local' ? [nodeExternals()] : [/aws-sdk/],
   devtool: 'source-map',
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
-    plugins: [new TsconfigPathsPlugin()],
+    plugins: [new TsconfigPathsPlugin()]
   },
   output: {
     libraryTarget: 'commonjs',
     path: path.join(__dirname, '../.webpack'),
     filename: '[name].js',
-    devtoolModuleFilenameTemplate: '[absolute-resource-path]',
+    devtoolModuleFilenameTemplate: '[absolute-resource-path]'
   },
   target: 'node',
   module: {
@@ -31,23 +29,23 @@ const config = {
         test: /\.ts$/,
         use: [
           {
-            loader: 'cache-loader',
+            loader: 'cache-loader'
           },
           {
             loader: 'thread-loader',
             options: {
-              workers: os.cpus().length - 1,
-            },
+              workers: os.cpus().length - 1
+            }
           },
           {
             loader: 'ts-loader',
             options: {
-              happyPackMode: true,
-            },
-          },
-        ],
+              happyPackMode: true
+            }
+          }
+        ]
       }
-    ],
+    ]
   },
   stats: 'minimal'
 }

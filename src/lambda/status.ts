@@ -4,8 +4,5 @@ import { Handler } from 'aws-lambda'
 import 'source-map-support/register'
 
 export const status: Handler = async (): Promise<LambdaApiResult> => {
-  return createApiResponse({
-    message: 'Ready.',
-    result: 'Success'
-  })
+  return createApiResponse({ result: 'Success' })
 }

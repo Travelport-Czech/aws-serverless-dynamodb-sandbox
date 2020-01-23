@@ -7,7 +7,7 @@ export const getDocumentClient = (): DynamoDB.DocumentClient => {
       endpoint: 'http://localhost:3001',
       region: 'localhost',
       accessKeyId: 'DEFAULT_ACCESS_KEY',
-      secretAccessKey: 'DEFAULT_SECRET',
+      secretAccessKey: 'DEFAULT_SECRET'
     })
   }
 
