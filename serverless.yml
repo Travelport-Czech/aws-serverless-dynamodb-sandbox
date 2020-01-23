@@ -19,7 +19,7 @@ custom:
   webpack:
     webpackConfig: config/webpack.config.js
     includeModules: false
-    packager: yarn
+    packager: npm
   dynamodb:
     stages:
       - local

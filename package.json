@@ -10,11 +10,24 @@
   },
   "scripts": {
     "lint": "tsc && tslint --project tsconfig.json --config config/tslint.json",
-    "autofix": "tslint --project tsconfig.json --config config/tslint.json --fix && prettier ./src/**/* ./tests/**/* --write --config config/prettier.config.js",
+    "autofix": "tslint --project tsconfig.json --config config/tslint.json --fix && prettier ./src/**/* ./tests/**/* --write",
     "serverless": "node_modules/.bin/serverless",
     "deploy": "npm run lint && npm run serverless -- deploy",
     "offline": "serverless offline start --stage local",
-    "test": "concurrently --raw -k -s first \"npm run offline\" \"wait-on http://localhost:3000/status && mocha --opts config/mocha.opts tests/e2e/**/*.test.ts\""
+    "test": "concurrently --raw -k -s first \"npm run offline\" \"wait-on http://localhost:3000/status && jest ./tests\""
+  },
+  "jest": {
+    "verbose": true,
+    "preset": "ts-jest",
+    "testEnvironment": "node"
+  },
+  "prettier": {
+    "trailingComma": "none",
+    "tabWidth": 2,
+    "semi": false,
+    "endOfLine": "lf",
+    "printWidth": 120,
+    "singleQuote": true
   },
   "devDependencies": {
     "@babel/cli": "^7.7.4",
@@ -25,8 +38,7 @@
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-typescript": "^7.3.3",
     "@types/aws-lambda": "^8.10.27",
-    "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.7",
+    "@types/jest": "^24.9.0",
     "@types/node": "^8.10.49",
     "@types/node-fetch": "^2.3.7",
     "@types/uuid": "^3.4.4",
@@ -35,12 +47,9 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-module-resolver": "^3.2.0",
     "bufferutil": "^4.0.1",
-    "chai": "^4.2.0",
     "concurrently": "^4.1.0",
-    "esm": "^3.2.25",
     "extendable-error": "^0.1.5",
-    "fs-extra": "^8.0.1",
-    "mocha": "^6.1.4",
+    "jest": "^25.1.0",
     "node-fetch": "^2.6.0",
     "prettier": "^1.18.2",
     "serverless": "^1.45.1",
@@ -49,6 +58,7 @@
     "serverless-offline": "^5.12.0",
     "serverless-webpack": "^5.3.1",
     "source-map-support": "^0.5.12",
+    "ts-jest": "^24.3.0",
     "tslint": "^5.17.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-config-security": "^1.16.0",

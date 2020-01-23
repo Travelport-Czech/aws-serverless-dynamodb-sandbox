@@ -1,4 +1,3 @@
-import { expect } from 'chai'
 import fetch from 'node-fetch'
 
 const url = 'http://localhost:3000'
@@ -11,8 +10,8 @@ describe('API Index', () => {
       body: JSON.stringify({ value: 'val' })
     })
     const json = await response.json()
-    expect(json).to.have.property('result', 'Success')
-    expect(json).to.have.property('message', 'Done.')
-    expect(json).to.have.nested.property('context.items[0].id')
+    expect(json).toHaveProperty('result', 'Success')
+    expect(json).toHaveProperty('message', 'Done.')
+    expect(json).toHaveProperty(['context', 'items', 0, 'id'])
   })
 })
