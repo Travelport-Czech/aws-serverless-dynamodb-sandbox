@@ -1,6 +1,8 @@
+const os = require('os')
 const path = require('path')
 const nodeExternals = require('webpack-node-externals')
 const slsw = require('serverless-webpack')
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 
 const config = {
   mode: 'production',
@@ -14,34 +16,36 @@ const config = {
   devtool: 'source-map',
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
+    plugins: [new TsconfigPathsPlugin()],
   },
   output: {
     libraryTarget: 'commonjs',
     path: path.join(__dirname, '../.webpack'),
     filename: '[name].js',
+    devtoolModuleFilenameTemplate: '[absolute-resource-path]',
   },
   target: 'node',
   module: {
     rules: [
       {
-        test: /\.(ts|js)x?$/,
-        loader: 'babel-loader',
-        options: {
-          presets: [
-            ['@babel/preset-env', { targets: { node: '10' } }],
-            '@babel/typescript'
-          ],
-          plugins: [
-            '@babel/proposal-class-properties',
-            '@babel/proposal-object-rest-spread',
-            ["module-resolver", {
-              "root": ["./src"],
-              "alias": {
-                "@": "./src"
-              }
-            }],
-          ]
-        }
+        test: /\.ts$/,
+        use: [
+          {
+            loader: 'cache-loader',
+          },
+          {
+            loader: 'thread-loader',
+            options: {
+              workers: os.cpus().length - 1,
+            },
+          },
+          {
+            loader: 'ts-loader',
+            options: {
+              happyPackMode: true,
+            },
+          },
+        ],
       }
     ],
   },
