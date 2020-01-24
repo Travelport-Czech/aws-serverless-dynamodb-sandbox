@@ -1,8 +1,7 @@
 import { createApiResponse } from '@/createApiResponse'
-import { LambdaApiResult } from '@/LambdaApiResult'
-import { Handler } from 'aws-lambda'
+import { APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
 import 'source-map-support/register'
 
-export const status: Handler = async (): Promise<LambdaApiResult> => {
+export const status: APIGatewayProxyHandler = async (): Promise<APIGatewayProxyResult> => {
   return createApiResponse({ result: 'Success' })
 }

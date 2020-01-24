@@ -1,4 +1,4 @@
-import { LambdaApiResult } from '@/LambdaApiResult'
+import { APIGatewayProxyResult } from 'aws-lambda'
 
 export const createApiResponse = ({
   result,
@@ -10,7 +10,7 @@ export const createApiResponse = ({
   readonly message?: string
   readonly context?: unknown
   readonly statusCode?: number
-}): LambdaApiResult => {
+}): APIGatewayProxyResult => {
   const headers = {
     'Access-Control-Allow-Credentials': true, // Required for cookies, authorization headers with HTTPS
     'Access-Control-Allow-Origin': '*', // Required for CORS support to work

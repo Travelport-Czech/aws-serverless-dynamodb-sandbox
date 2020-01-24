@@ -1,16 +1,17 @@
-import { AuthorizedApiLambdaEvent } from '@/AuthorizedApiLambdaEvent'
 import { createApiResponse } from '@/createApiResponse'
 import * as itemRepository from '@/database/itemRepository'
 import { AppError } from '@/errors/AppError'
 import { Item } from '@/Item'
-import { LambdaApiResult } from '@/LambdaApiResult'
-import { Handler } from 'aws-lambda'
+import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
 import 'source-map-support/register'
 import { v1 } from 'uuid'
 import { ValidString } from '@travelport-czech/valid-objects-ts'
 
-export const index: Handler = async (event: AuthorizedApiLambdaEvent): Promise<LambdaApiResult> => {
+export const index: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   try {
+    if (!event.body) {
+      throw new AppError('Input is not object')
+    }
     const input: unknown = JSON.parse(event.body)
     if (typeof input !== 'object' || !input) {
       throw new AppError('Input is not object')
