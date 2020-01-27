@@ -19,7 +19,13 @@
   "jest": {
     "verbose": true,
     "preset": "ts-jest",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "@/(.*)": "<rootDir>/src/$1"
+    },
+    "setupFiles": [
+      "<rootDir>/tests/bootstrap.ts"
+    ]
   },
   "prettier": {
     "trailingComma": "none",
@@ -87,6 +93,7 @@
     "bufferutil": "^4.0.1",
     "cache-loader": "^4.1.0",
     "concurrently": "^4.1.0",
+    "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.9.0",
     "eslint-config-typescript": "^3.0.0",
