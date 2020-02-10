@@ -25,7 +25,7 @@ describe('API Index', () => {
       .post('/')
       .send(data)
       .expect(422)
-    expect(response.body).toEqual({ error: 'Missing attribute value.' })
+    expect(response.body).toEqual({ result: 'Error', message: 'Missing attribute value.' })
   })
 
   it('param value is not string', async () => {
@@ -34,6 +34,6 @@ describe('API Index', () => {
       .post('/')
       .send(data)
       .expect(422)
-    expect(response.body).toEqual({ error: "Invalid string '10 is type number'." })
+    expect(response.body).toEqual({ result: 'Error', message: 'Invalid string \'10 is type number\'.' })
   })
 })

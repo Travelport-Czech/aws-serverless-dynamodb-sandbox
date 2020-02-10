@@ -1,4 +1,4 @@
-import { createApiResponse } from '@/createApiResponse'
+import { createApiResponse } from '@/utils/createApiResponse'
 import * as itemRepository from '@/database/itemRepository'
 import { Item } from '@/Item'
 import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'

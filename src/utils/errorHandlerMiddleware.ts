@@ -1,5 +1,6 @@
 import middy, { HandlerLambda } from 'middy'
 import createError from 'http-errors'
+import { createApiResponse } from '@/utils/createApiResponse'
 
 declare global {
   interface Error {
@@ -15,11 +16,11 @@ export const errorHandlerMiddleware: middy.Middleware<never> = () => {
       handler.error = new createError.InternalServerError(handler.error.message)
     }
 
-    handler.response = {
+    handler.response = createApiResponse({
+      result: 'Error',
       statusCode: handler.error.statusCode,
-      headers: {},
-      body: JSON.stringify({ error: handler.error.message })
-    }
+      message: handler.error.message
+    })
 
     return next()
   }

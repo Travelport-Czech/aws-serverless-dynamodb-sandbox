@@ -1,4 +1,4 @@
-import { createApiResponse } from '@/createApiResponse'
+import { createApiResponse } from '@/utils/createApiResponse'
 import { APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
 import 'source-map-support/register'
 
