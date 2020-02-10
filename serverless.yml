@@ -35,6 +35,11 @@ custom:
           - table: ${env:DB_TABLE_NAME_ITEMS}
             sources: [./tests/database/itemsTableData.json]
 functions:
+  authorizer:
+    name: authorizer
+    memorySize: 256
+    timeout: 10
+    handler: src/lambda/authorizer.authorizer
   index:
     name: index
     memorySize: 256
@@ -44,6 +49,7 @@ functions:
       - http:
           path: /
           method: post
+          authorizer: authorizer
   status:
     name: status
     memorySize: 256
