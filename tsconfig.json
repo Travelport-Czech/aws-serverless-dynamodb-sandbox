@@ -21,7 +21,8 @@
     "noImplicitReturns": true,
     "suppressImplicitAnyIndexErrors": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": ".dist"
+    "outDir": ".dist",
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "src/**/*"
