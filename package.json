@@ -10,7 +10,6 @@
   },
   "scripts": {
     "lint": "tsc --project tsconfig.json && eslint --ext .ts .",
-    "autofix": "prettier **/* --write",
     "serverless": "node_modules/.bin/serverless",
     "deploy": "npm run lint && npm run serverless -- deploy",
     "offline": "serverless offline start --stage local",

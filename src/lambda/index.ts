@@ -54,5 +54,4 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
   })
 }
 
-export const index = middy(handler)
-  .use(errorHandlerMiddleware())
+export const index = middy(handler).use(errorHandlerMiddleware())
