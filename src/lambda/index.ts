@@ -33,7 +33,7 @@ export const index: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent)
     // const items2 = await itemRepository.getItemsByUserAndDate('newUser', '2018-12-24')
 
     // delete item
-    await itemRepository.deleteWatcher('defaultUser', '2017-10-01', '00000000-0000-0000-0000-000000000001')
+    await itemRepository.deleteItem('defaultUser', '2017-10-01', '00000000-0000-0000-0000-000000000001')
 
     const items = items1.map((item: Item) => {
       return {

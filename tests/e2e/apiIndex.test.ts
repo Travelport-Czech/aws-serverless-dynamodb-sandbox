@@ -1,9 +1,12 @@
 import fetch from 'node-fetch'
+import { getAllItemsByUser } from '../../src/database/itemRepository'
 
 const url = 'http://localhost:3000'
 
 describe('API Index', () => {
   it('ok', async () => {
+    expect(await getAllItemsByUser('newUser')).toHaveLength(0)
+
     const response = await fetch(url, {
       method: 'POST',
       headers: { Accept: 'application/json' },
@@ -12,6 +15,8 @@ describe('API Index', () => {
     const json = await response.json()
     expect(json).toHaveProperty('result', 'Success')
     expect(json).toHaveProperty(['context', 'items', 0, 'id'])
+
+    expect(await getAllItemsByUser('newUser')).toHaveLength(1)
   })
 
   it('missing param', async () => {

@@ -57,7 +57,7 @@ export const getItemById = async (userId: string, date: string, id: string): Pro
   return data.Items[0] as Item
 }
 
-export const deleteWatcher = async (userId: string, date: string, id: string): Promise<void> => {
+export const deleteItem = async (userId: string, date: string, id: string): Promise<void> => {
   const params: DynamoDB.DocumentClient.DeleteItemInput = {
     Key: {
       id: `${date}#${id}`,
