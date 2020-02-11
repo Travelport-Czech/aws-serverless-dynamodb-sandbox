@@ -13,18 +13,7 @@
     "serverless": "node_modules/.bin/serverless",
     "deploy": "npm run lint && npm run serverless -- deploy",
     "offline": "serverless offline start --stage local",
-    "test": "concurrently --raw -k -s first \"npm run offline\" \"wait-on http://localhost:3000/status && jest ./tests\""
-  },
-  "jest": {
-    "verbose": true,
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "moduleNameMapper": {
-      "@/(.*)": "<rootDir>/src/$1"
-    },
-    "setupFiles": [
-      "<rootDir>/tests/bootstrap.ts"
-    ]
+    "test": "concurrently --raw -k -s first \"npm run offline\" \"wait-on http://localhost:3000/status && jest -c tests/e2e/jest.config.js ./tests\""
   },
   "prettier": {
     "trailingComma": "none",
