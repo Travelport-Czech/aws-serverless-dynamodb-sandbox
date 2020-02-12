@@ -13,6 +13,7 @@ export const errorHandlerMiddleware: middy.Middleware<never> = () => {
     if (handler.error.statusCode && handler.error.message) {
       console.log(handler.error)
     } else {
+      console.log(handler.error)
       handler.error = new createError.InternalServerError(handler.error.message)
     }
 

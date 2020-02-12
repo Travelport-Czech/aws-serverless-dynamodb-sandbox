@@ -1,4 +1,4 @@
-service: aws-serverless-dynamodb-sandbox
+service: aws-serverless-sandbox
 
 plugins:
   - serverless-dotenv-plugin
@@ -14,7 +14,15 @@ provider:
   runtime: nodejs12.x
   region: ${env:DEFAULT_AWS_REGION}
   stage: ${opt:stage}
-  profile: aws-serverless-dynamodb-sandbox
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamoDb:Query
+        - dynamoDb:Scan
+        - dynamoDb:PutItem
+        - dynamoDb:DeleteItem
+      Resource: arn:aws:dynamodb:*:*:*
+
 custom:
   webpack:
     webpackConfig: config/webpack.config.js
@@ -43,7 +51,7 @@ functions:
   index:
     name: index
     memorySize: 256
-    timeout: 120
+    timeout: 10
     handler: src/lambda/index.index
     events:
       - http:
@@ -53,7 +61,7 @@ functions:
   status:
     name: status
     memorySize: 256
-    timeout: 120
+    timeout: 10
     handler: src/lambda/status.status
     events:
       - http:

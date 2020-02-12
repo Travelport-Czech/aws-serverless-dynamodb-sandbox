@@ -11,9 +11,10 @@
   "scripts": {
     "lint": "tsc --project tsconfig.json && eslint --ext .ts .",
     "serverless": "node_modules/.bin/serverless",
-    "deploy": "npm run lint && npm run serverless -- deploy",
+    "deploy": "npm run serverless -- deploy",
     "offline": "serverless offline start --stage local",
-    "test": "concurrently --raw -k -s first \"npm run offline\" \"wait-on http://localhost:3000/status && jest -c tests/e2e/jest.config.js ./tests\""
+    "test:e2e": "concurrently --raw -k -s first \"npm run offline\" \"wait-on http://localhost:3000/status && jest -c tests/e2e/jest.config.js ./tests/e2e\"",
+    "test:acceptance": "jest -c tests/acceptance/jest.config.js ./tests/acceptance"
   },
   "prettier": {
     "trailingComma": "none",
