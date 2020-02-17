@@ -25,6 +25,7 @@ export default async function setup(options: SpawnOptions = {}): Promise<void> {
   const apiUrl = apiUrlArray && apiUrlArray[0]
 
   if (!apiUrl) {
+    console.log(child.stdout.toString())
     throw new Error('Can not parse api url.')
   }
 
