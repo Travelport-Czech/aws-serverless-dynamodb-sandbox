@@ -44,3 +44,6 @@ Run:
 ```
 > AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=... npm run serverless -- deploy --stage prod
 ```
+
+### Todo
+* Add apiId to all resources to allow run test:acceptance parallel in one account
