@@ -1,33 +1,10 @@
 {
+  "extends": "@tsconfig/node16",
+  "include": ["src"],
   "compilerOptions": {
-    "lib": [
-      "es2017"
-    ],
-    "target": "es2017",
-    "module": "es6",
-    "sourceMap": true,
-    "strict": true,
-    "moduleResolution": "node",
-    "rootDir": "./",
-    "baseUrl": "./",
+    "noEmit": true,
     "paths": {
       "@/*": ["./src/*"]
-    },
-    "pretty": true,
-    "declaration": true,
-    "noImplicitAny": true,
-    "noUnusedLocals": true,
-    "removeComments": true,
-    "noImplicitReturns": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "forceConsistentCasingInFileNames": true,
-    "outDir": ".dist",
-    "allowSyntheticDefaultImports": true
-  },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+    }
+  }
 }

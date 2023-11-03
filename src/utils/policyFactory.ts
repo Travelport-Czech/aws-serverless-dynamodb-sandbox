@@ -1,25 +1,33 @@
-import { CustomAuthorizerResult } from 'aws-lambda'
-import { parseArn } from '@/utils/parseArn'
+import { CustomAuthorizerResult } from 'aws-lambda';
+import { parseArn } from '@/utils/parseArn';
 
-const createPolicy = (principalId: string, apiArnList: string[], effect: 'Allow' | 'Deny'): CustomAuthorizerResult => {
+const createPolicy = (
+  principalId: string,
+  apiArnList: string[],
+  effect: 'Allow' | 'Deny',
+): CustomAuthorizerResult => {
   return {
     policyDocument: {
       Statement: [
         {
           Action: 'execute-api:Invoke',
           Effect: effect,
-          Resource: apiArnList
-        }
+          Resource: apiArnList,
+        },
       ],
-      Version: '2012-10-17'
+      Version: '2012-10-17',
     },
-    principalId
-  }
-}
+    principalId,
+  };
+};
 
-export const generateAllowPolicy = (arn: string, principalId: string, allowedUrl: string[]): CustomAuthorizerResult => {
-  const parsedArn = parseArn(arn)
-  const apiArnList = allowedUrl.map(current => {
+export const generateAllowPolicy = (
+  arn: string,
+  principalId: string,
+  allowedUrl: string[],
+): CustomAuthorizerResult => {
+  const parsedArn = parseArn(arn);
+  const apiArnList = allowedUrl.map((current) => {
     return (
       'arn:aws:execute-api:' +
       parsedArn.awsRegion +
@@ -31,12 +39,15 @@ export const generateAllowPolicy = (arn: string, principalId: string, allowedUrl
       parsedArn.stage +
       '/' +
       current
-    )
-  })
+    );
+  });
 
-  return createPolicy(principalId, apiArnList, 'Allow')
-}
+  return createPolicy(principalId, apiArnList, 'Allow');
+};
 
-export const generateDenyPolicy = (principalId: string, resource: string): CustomAuthorizerResult => {
-  return createPolicy(principalId, [resource], 'Deny')
-}
+export const generateDenyPolicy = (
+  principalId: string,
+  resource: string,
+): CustomAuthorizerResult => {
+  return createPolicy(principalId, [resource], 'Deny');
+};

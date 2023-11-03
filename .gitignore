@@ -1,8 +1,9 @@
 node_modules
 jspm_packages
 .serverless
-.webpack
+.esbuild
 .dist
 .dynamodb
 .idea
+outputs.json
 yarn-error.log

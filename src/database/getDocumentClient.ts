@@ -1,15 +1,14 @@
-import { DynamoDB } from 'aws-sdk'
-const isOffline: string | undefined = process.env.IS_OFFLINE
+import { DynamoDB } from 'aws-sdk';
+import { getConfig } from '../../config';
 
 export const getDocumentClient = (): DynamoDB.DocumentClient => {
-  if (isOffline) {
+  const config = getConfig();
+  if (config.isOffline) {
     return new DynamoDB.DocumentClient({
       endpoint: 'http://localhost:3001',
-      region: 'localhost',
-      accessKeyId: 'DEFAULT_ACCESS_KEY',
-      secretAccessKey: 'DEFAULT_SECRET'
-    })
+      region: config.region,
+    });
   }
 
-  return new DynamoDB.DocumentClient()
-}
+  return new DynamoDB.DocumentClient();
+};
