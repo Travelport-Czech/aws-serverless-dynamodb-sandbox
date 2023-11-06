@@ -1,14 +1,14 @@
 # AWS Serverless DynamoDB Sandbox
 
-Example of the simple AWS serverless application with DynamoDB, Typescript and tests running in local environment.
+Example of the simple AWS serverless application with DynamoDB, Typescript and tests.
 
 ## Contains
 
-* Basic lambda in typescript (see [src/lambda/status.ts](src/lambda/status.ts))
-* Working with DynamoDB (see src/lambda/index.ts)
+* Lambdas in typescript (see [src/handlers/](src/handlers/))
+* Working with DynamoDB (see [src/database/taskRepository.ts](src/database/taskRepository.ts))
 * [ZOD validation library](https://zod.dev/)
 * Local environment (run `npm run offline`)
-* Serverless with configuration in typescript (see serverless.ts)
+* Serverless with configuration in typescript (see [serverless.ts](serverless.ts))
 * Tests on offline environment and local database (run `npm run test:offline`, see src/handlers/index.test.offline.ts)
 * Tests on AWS (run `AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=... npm run test:e2e`, see tests/acceptance/basic.test.ts)
 * Simple custom authorizer, allows to add multiple access tokens and define custom allowed endpoints (see src/lambda/authorizer.ts) 
