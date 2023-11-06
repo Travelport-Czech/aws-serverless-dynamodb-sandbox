@@ -59,3 +59,4 @@ Run:
 
 ### Todo
 * add endpoints for remove task, list tasks and update task
+* add tests and lint to GitHub actions
