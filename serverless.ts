@@ -1,5 +1,3 @@
-import * as process from 'process';
-
 import type { AWS } from '@serverless/typescript';
 
 import { getConfig } from './config';
@@ -41,7 +39,7 @@ const serverlessConfiguration: AWS = {
   provider: {
     deploymentBucket: config.s3.deploymentBucket,
     name: 'aws',
-    runtime: 'nodejs16.x',
+    runtime: 'nodejs18.x',
     region: config.region,
     stage: config.stage,
     versionFunctions: false,
@@ -67,6 +65,7 @@ const serverlessConfiguration: AWS = {
     ],
     environment: {
       STAGE: config.stage,
+      NODE_OPTIONS: '--enable-source-maps',
     },
   },
   custom: {
@@ -78,9 +77,10 @@ const serverlessConfiguration: AWS = {
     esbuild: {
       bundle: true,
       minify: false,
-      target: 'node16',
-      sourcemap: 'inline',
-      packager: 'pnpm',
+      sourcemap: 'linked',
+      keepNames: true,
+      target: 'node18',
+      packager: 'npm',
       concurrency: 1,
       loader: {
         '.md': 'text',
@@ -92,7 +92,7 @@ const serverlessConfiguration: AWS = {
         port: config.dynamoDb.port,
         inMemory: true,
         migrate: true,
-        seed: true,
+        seed: false,
         sharedDb: true,
       },
     },
@@ -120,14 +120,26 @@ const serverlessConfiguration: AWS = {
         },
       ],
     },
-    index: {
-      memorySize: 1024,
-      timeout: 10,
-      handler: 'src/handlers/index.index',
+    error: {
+      handler: 'src/handlers/error.error',
       events: [
         {
           http: {
-            path: '/',
+            path: '/error',
+            method: 'get',
+            cors: true,
+          },
+        },
+      ],
+    },
+    addTask: {
+      memorySize: 1024,
+      timeout: 10,
+      handler: 'src/handlers/addTask.addTask',
+      events: [
+        {
+          http: {
+            path: '/task',
             method: 'post',
             cors: true,
             authorizer: {
@@ -167,7 +179,7 @@ const serverlessConfiguration: AWS = {
           TableName: config.dynamoDb.tableName,
           AttributeDefinitions: [
             {
-              AttributeName: 'userId',
+              AttributeName: 'principalId',
               AttributeType: 'S',
             },
             {
@@ -177,7 +189,7 @@ const serverlessConfiguration: AWS = {
           ],
           KeySchema: [
             {
-              AttributeName: 'userId',
+              AttributeName: 'principalId',
               KeyType: 'HASH',
             },
             {

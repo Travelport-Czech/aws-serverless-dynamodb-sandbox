@@ -4,14 +4,18 @@ Example of the simple AWS serverless application with DynamoDB, Typescript and t
 
 ## Contains
 
-* Basic lambda in typescript (see src/lambda/status.ts)
+* Basic lambda in typescript (see [src/lambda/status.ts](src/lambda/status.ts))
 * Working with DynamoDB (see src/lambda/index.ts)
 * [ZOD validation library](https://zod.dev/)
 * Local environment (run `npm run offline`)
 * Serverless with configuration in typescript (see serverless.ts)
-* Tests on offline environment and local database (run `npm run test:e2e`, see src/handlers/index.test.offline.ts)
-* Acceptance tests on AWS (run `AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=... npm run test:acceptance`, see tests/acceptance/basic.test.ts)
-* Simple custom authorizer, allows add multiple access tokens and define custom allowed endpoints (see src/lambda/authorizer.ts) 
+* Tests on offline environment and local database (run `npm run test:offline`, see src/handlers/index.test.offline.ts)
+* Tests on AWS (run `AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=... npm run test:e2e`, see tests/acceptance/basic.test.ts)
+* Simple custom authorizer, allows to add multiple access tokens and define custom allowed endpoints (see src/lambda/authorizer.ts) 
+* AWS SDK version 3 (see src/lambda/index.ts)
+* Source maps for debugging typescript in AWS (see src/database/createDynamoDbDocumentClient.ts)
+
+![Source maps in AWS](assets/sourcemaps_in_aws.png)
 
 ## Prepare development enviroment
 
@@ -33,12 +37,12 @@ see [there](https://help.github.com/en/github/managing-packages-with-github-pack
 ```
 * Send POST request to
 ```
-http://localhost:3000
+POST http://localhost:3000/task
 
 data:
 
 {
-    "value": "my value" 
+    "description": "my value" 
 }
 ```
 
@@ -46,8 +50,8 @@ data:
 
 Run:
 ```
-> AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=... npm run serverless -- deploy --stage prod
+> AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=... npm run start
 ```
 
 ### Todo
-* Add apiId to all resources to allow run test:acceptance parallel in one account
+* add endpoints for remove task, list tasks and update task

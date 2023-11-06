@@ -4,9 +4,8 @@
   "main": "index.js",
   "author": "michal.bures@travelportgds.cz",
   "license": "none",
-  "private": true,
   "engines": {
-    "node": ">=12"
+    "node": ">=16"
   },
   "scripts": {
     "db:install": "mkdir -p ./.dynamodb && cd .dynamodb && curl https://s3-us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz | tar -xz",
@@ -14,55 +13,10 @@
     "serverless": "node_modules/.bin/serverless",
     "offline": "STAGE=offline serverless offline start --stage offline --noPrependStageInUrl",
     "test:offline": "concurrently --raw -k -s first \"npm run offline\" \"wait-on http://localhost:3000/status && npx vitest --run --config tests/offline/vitest.config.ts\"",
-    "test:acceptance": "npx vitest --run --config tests/acceptance/vitest.config.ts",
+    "test:e2e": "npx vitest --run --config tests/e2e/vitest.config.ts",
     "prepare": "STAGE=production ts-node scripts/prepareDeployBucket.ts",
     "start": "npm run prepare && STAGE=production npm run serverless -- deploy --stage production",
     "stop": "STAGE=production npm run serverless -- remove --stage production"
-  },
-  "prettier": {
-    "singleQuote": true,
-    "semi": true
-  },
-  "eslintConfig": {
-    "env": {
-      "es6": true
-    },
-    "extends": [
-      "eslint:recommended",
-      "plugin:prettier/recommended"
-    ],
-    "globals": {
-      "Atomics": "readonly",
-      "SharedArrayBuffer": "readonly"
-    },
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-      "ecmaVersion": 2018,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "modules": true
-      }
-    },
-    "plugins": [
-      "@typescript-eslint"
-    ],
-    "rules": {},
-    "overrides": [
-      {
-        "files": [
-          "*.ts",
-          "*.tsx"
-        ],
-        "rules": {
-          "@typescript-eslint/no-unused-vars": [
-            2,
-            {
-              "args": "none"
-            }
-          ]
-        }
-      }
-    ]
   },
   "dependencies": {
     "@middy/core": "4.6.5",
@@ -74,7 +28,10 @@
     "zod": "3.22.4"
   },
   "devDependencies": {
+    "@aws-sdk/client-dynamodb": "3.441.0",
     "@aws-sdk/client-s3": "3.441.0",
+    "@aws-sdk/lib-dynamodb": "3.441.0",
+    "aws-xray-sdk": "3.5.0",
     "@types/aws-lambda": "8.10.125",
     "@types/http-errors": "2.0.3",
     "@types/jest": "29.5.7",
@@ -83,8 +40,7 @@
     "@typescript-eslint/eslint-plugin": "6.9.1",
     "@typescript-eslint/parser": "6.9.1",
     "aws-lambda": "1.0.7",
-    "aws-sdk": "2.1487.0",
-    "concurrently": "^5.3.0",
+    "concurrently": "8.2.2",
     "eslint": "8.52.0",
     "eslint-config-prettier": "9.0.0",
     "eslint-config-typescript": "3.0.0",
@@ -100,12 +56,12 @@
     "serverless-export-outputs": "1.0.2",
     "@serverless/typescript": "3.30.1",
     "esbuild": "0.19.5",
-    "typescript": "5.2.2",
+    "typescript": "5.1.6",
     "wait-on": "^5.2.0",
     "vitest": "0.34.6",
     "vite-tsconfig-paths": "4.2.1",
     "axios": "1.6.0",
-    "@tsconfig/node16": "1.0.3",
+    "@tsconfig/node16": "16.1.1",
     "ts-node": "10.9.1"
   }
 }

@@ -1,10 +1,12 @@
 {
   "extends": "@tsconfig/node16",
-  "include": ["src"],
+  "include": ["src", "config.ts"],
   "compilerOptions": {
+    "moduleResolution": "node",
     "noEmit": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@app/*": ["./src/*"],
+      "@config": ["./config.ts"]
     }
   }
 }

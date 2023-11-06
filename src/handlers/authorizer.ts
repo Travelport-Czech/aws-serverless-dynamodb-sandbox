@@ -3,24 +3,25 @@ import {
   CustomAuthorizerHandler,
   CustomAuthorizerResult,
 } from 'aws-lambda';
-import { passwordsAreSame } from '@/utils/passwordsAreSame';
-import { generateAllowPolicy, generateDenyPolicy } from '@/utils/policyFactory';
+import { passwordsAreSame } from '@app/utils/passwordsAreSame';
+import {
+  generateAllowPolicy,
+  generateDenyPolicy,
+} from '@app/utils/policyFactory';
 import middy from '@middy/core';
 import inputOutputLogger from '@middy/input-output-logger';
 
 interface Credential {
-  readonly name: string;
-  readonly description: string;
+  readonly principalId: string;
   readonly accessToken: string;
   readonly allowedMethods: string[];
 }
 
 const credentialsList: Credential[] = [
   {
-    name: 'Test Access',
-    description: 'Access for testing',
+    principalId: 'test-access',
     accessToken: 'token',
-    allowedMethods: ['POST/'],
+    allowedMethods: ['POST/task'],
   },
 ];
 
@@ -30,7 +31,7 @@ const handler: CustomAuthorizerHandler = async (
   const actualToken = event.headers?.Authorization ?? undefined;
 
   if (!actualToken) {
-    return generateDenyPolicy('', event.methodArn);
+    return generateDenyPolicy('unauthorized', event.methodArn);
   }
 
   const result = credentialsList.filter((item) => {
@@ -38,12 +39,12 @@ const handler: CustomAuthorizerHandler = async (
   });
 
   if (result.length !== 1) {
-    return generateDenyPolicy('', event.methodArn);
+    return generateDenyPolicy('unauthorized', event.methodArn);
   }
 
   return generateAllowPolicy(
     event.methodArn,
-    result[0].name,
+    result[0].principalId,
     result[0].allowedMethods,
   );
 };
