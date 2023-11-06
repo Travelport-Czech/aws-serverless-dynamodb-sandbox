@@ -43,6 +43,10 @@ const serverlessConfiguration: AWS = {
     region: config.region,
     stage: config.stage,
     versionFunctions: false,
+    tracing: {
+      lambda: true,
+      apiGateway: true,
+    },
     logs: {
       restApi: true,
     },

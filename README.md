@@ -9,13 +9,17 @@ Example of the simple AWS serverless application with DynamoDB, Typescript and t
 * [ZOD validation library](https://zod.dev/)
 * Local environment (run `npm run offline`)
 * Serverless with configuration in typescript (see [serverless.ts](serverless.ts))
-* Tests on offline environment and local database (run `npm run test:offline`, see src/handlers/index.test.offline.ts)
-* Tests on AWS (run `AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=... npm run test:e2e`, see tests/acceptance/basic.test.ts)
-* Simple custom authorizer, allows to add multiple access tokens and define custom allowed endpoints (see src/lambda/authorizer.ts) 
-* AWS SDK version 3 (see src/lambda/index.ts)
-* Source maps for debugging typescript in AWS (see src/database/createDynamoDbDocumentClient.ts)
+* Tests on offline environment and local database (run `npm run test:offline`, see [src/handlers/addTask.test.offline.ts](src/handlers/addTask.test.offline.ts))
+* Tests on AWS (run `AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=... npm run test:e2e`, see [src/handlers/addTask.test.e2e.ts](src/handlers/addTask.test.e2e.ts))
+* Simple custom authorizer, allows to add multiple access tokens and define custom allowed endpoints (see [src/handlers/authorizer.ts](src/handlers/authorizer.ts)) 
+* AWS SDK version 3 (see [src/database/createDynamoDbDocumentClient.ts](src/database/createDynamoDbDocumentClient.ts))
+* Source maps for debugging typescript in AWS 
 
 ![Source maps in AWS](assets/sourcemaps_in_aws.png)
+
+* XRAY
+
+![XRAY](assets/xray_detail.png)
 
 ## Prepare development enviroment
 
