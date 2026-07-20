@@ -1,5 +1,5 @@
 import { createApiResponse } from '@app/utils/createApiResponse';
-import { APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda';
+import type { APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda';
 import middy from '@middy/core';
 import { defaultMiddlewares } from '@app/handlers/defaultMiddlewares';
 

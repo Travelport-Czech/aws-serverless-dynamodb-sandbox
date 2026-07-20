@@ -5,7 +5,7 @@ export default defineConfig({
     tsconfigPaths: true,
   },
   test: {
-    include: ['**/*.test.e2e.ts'],
-    testTimeout: 10000,
+    include: ['config.test.ts', 'infra/**/*.test.ts', 'src/**/*.test.ts'],
+    exclude: ['src/**/*.test.e2e.ts'],
   },
 });

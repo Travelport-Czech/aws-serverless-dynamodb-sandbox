@@ -23,7 +23,7 @@ export const parseArn = (arn: string): ArnParams => {
       stage,
       method,
     };
-  } catch (err) {
+  } catch {
     throw new Error(`Invalid ARN '${arn}'`);
   }
 };

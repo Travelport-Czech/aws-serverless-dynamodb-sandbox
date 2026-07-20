@@ -1,56 +1,32 @@
-import * as process from 'process';
-
 interface Config {
-  region: 'eu-central-1' | 'us-east-1';
+  region: string;
   dynamoDb: {
     tableName: string;
-    port: number;
+    endpoint?: string;
   };
-  s3: {
-    deploymentBucket: string;
-    port: number;
-  };
-  isOffline?: boolean;
 }
 
-const defaultConfig: Config = {
-  region: 'eu-central-1',
-  dynamoDb: {
-    tableName: 'items',
-    port: 3001,
-  },
-  s3: {
-    deploymentBucket: 'aws-serverless-sandbox-1237841654', // use custom hash to avoid conflicts
-    port: 8000,
-  },
-};
-
-const configProduction: Config = {
-  ...defaultConfig,
-  isOffline: false,
-};
-
-const configLocal: Config = {
-  ...defaultConfig,
-  isOffline: true,
+const requireEnvironmentVariable = (
+  name: string,
+  environment: NodeJS.ProcessEnv,
+): string => {
+  const value = environment[name]?.trim();
+  if (!value) {
+    throw new Error(`Missing required environment variable ${name}`);
+  }
+  return value;
 };
 
 export const getConfig = (
-  stage = process.env.STAGE,
-): Config & { stage: 'offline' | 'production' } => {
-  if (stage === 'offline') {
-    return {
-      ...configLocal,
-      stage: 'offline',
-    };
-  }
+  environment: NodeJS.ProcessEnv = process.env,
+): Config => {
+  const endpoint = environment.DYNAMODB_ENDPOINT?.trim();
 
-  if (stage === 'production') {
-    return {
-      ...configProduction,
-      stage: 'production',
-    };
-  }
-
-  throw new Error(`No available config for stage ${stage}`);
+  return {
+    region: environment.AWS_REGION ?? 'eu-central-1',
+    dynamoDb: {
+      tableName: requireEnvironmentVariable('ITEMS_TABLE_NAME', environment),
+      ...(endpoint ? { endpoint } : {}),
+    },
+  };
 };

@@ -1,41 +1,35 @@
-import {
+import type {
   CustomAuthorizerEvent,
   CustomAuthorizerHandler,
   CustomAuthorizerResult,
 } from 'aws-lambda';
+import { Resource } from 'sst';
 import { passwordsAreSame } from '@app/utils/passwordsAreSame';
 import {
   generateAllowPolicy,
   generateDenyPolicy,
 } from '@app/utils/policyFactory';
 import middy from '@middy/core';
-import inputOutputLogger from '@middy/input-output-logger';
 
-interface Credential {
+export interface Credential {
   readonly principalId: string;
   readonly accessToken: string;
   readonly allowedMethods: string[];
 }
 
-const credentialsList: Credential[] = [
-  {
-    principalId: 'test-access',
-    accessToken: 'token',
-    allowedMethods: ['POST/task'],
-  },
-];
-
-const handler: CustomAuthorizerHandler = async (
+export const authorizeRequest = async (
   event: CustomAuthorizerEvent,
+  credentials: Credential[],
 ): Promise<CustomAuthorizerResult> => {
-  const actualToken = event.headers?.Authorization ?? undefined;
+  const actualToken =
+    event.headers?.Authorization ?? event.headers?.authorization;
 
   if (!actualToken) {
     return generateDenyPolicy('unauthorized', event.methodArn);
   }
 
-  const result = credentialsList.filter((item) => {
-    return passwordsAreSame(item.accessToken, actualToken);
+  const result = credentials.filter((item) => {
+    return passwordsAreSame(item.accessToken.trim(), actualToken);
   });
 
   if (result.length !== 1) {
@@ -49,4 +43,14 @@ const handler: CustomAuthorizerHandler = async (
   );
 };
 
-export const authorizer = middy(handler).use(inputOutputLogger());
+const handler: CustomAuthorizerHandler = async (event) => {
+  return authorizeRequest(event, [
+    {
+      principalId: 'test-access',
+      accessToken: Resource.AccessToken.value,
+      allowedMethods: ['POST/task'],
+    },
+  ]);
+};
+
+export const authorizer = middy(handler);
