@@ -1,11 +1,12 @@
+import { randomUUID } from 'node:crypto';
+
 import { createApiResponse } from '@app/utils/createApiResponse';
 import * as itemRepository from '@app/database/taskRepository';
-import {
+import type {
   APIGatewayProxyEvent,
   APIGatewayProxyHandler,
   APIGatewayProxyResult,
 } from 'aws-lambda';
-import { v1 } from 'uuid';
 import middy from '@middy/core';
 import { z } from 'zod';
 import { defaultMiddlewares } from '@app/handlers/defaultMiddlewares';
@@ -32,7 +33,7 @@ export const handler: APIGatewayProxyHandler = async (
 
   const task: TaskDatabase = {
     type: 'Task',
-    id: v1(),
+    id: randomUUID(),
     created: new Date().toISOString(),
     attributes: {
       description: inputParseResult.data.description,

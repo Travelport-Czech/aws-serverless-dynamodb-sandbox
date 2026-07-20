@@ -6,7 +6,7 @@ import {
 import { DeleteCommand, PutCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { createDynamoDbDocumentClient } from '@app/database/createDynamoDbDocumentClient';
 
-const tableName = getConfig().dynamoDb.tableName;
+const getTableName = (): string => getConfig().dynamoDb.tableName;
 
 const createTaskFromDatabaseRecord = (record: {
   [key: string]: unknown;
@@ -21,7 +21,7 @@ export const getTask = async (
   id: string,
 ): Promise<TaskDatabase> => {
   const queryCommand = new QueryCommand({
-    TableName: tableName,
+    TableName: getTableName(),
     ExpressionAttributeNames: {
       '#id': 'id',
       '#principalId': 'principalId',
@@ -47,7 +47,7 @@ export const deleteTask = async (
   id: string,
 ): Promise<void> => {
   const deleteCommand = new DeleteCommand({
-    TableName: tableName,
+    TableName: getTableName(),
     Key: {
       id,
       principalId,
@@ -65,7 +65,7 @@ export const addTask = async (
       ...task,
       principalId,
     },
-    TableName: tableName,
+    TableName: getTableName(),
   });
   await createDynamoDbDocumentClient().send(putCommand);
 };
@@ -74,7 +74,7 @@ export const getAllTasks = async (
   principalId: string,
 ): Promise<TaskDatabase[]> => {
   const queryCommand = new QueryCommand({
-    TableName: tableName,
+    TableName: getTableName(),
     ExpressionAttributeNames: {
       '#principalId': 'principalId',
     },
@@ -85,7 +85,6 @@ export const getAllTasks = async (
   });
 
   const data = await createDynamoDbDocumentClient().send(queryCommand);
-  console.log('data', data);
   if (!data || !data.Items || data.Count === 0) {
     return [];
   }

@@ -1,4 +1,4 @@
-import { CustomAuthorizerResult } from 'aws-lambda';
+import type { CustomAuthorizerResult } from 'aws-lambda';
 import { parseArn } from '@app/utils/parseArn';
 
 const createPolicy = (

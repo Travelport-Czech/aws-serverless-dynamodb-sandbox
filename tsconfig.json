@@ -1,8 +1,17 @@
 {
-  "extends": "@tsconfig/node16",
-  "include": ["src", "config.ts"],
+  "extends": "@tsconfig/node22",
+  "include": [
+    "config.test.ts",
+    "config.ts",
+    "infra",
+    "src",
+    "sst-env.d.ts",
+    "sst.config.ts",
+    "tests"
+  ],
   "compilerOptions": {
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "noEmit": true,
     "paths": {
       "@app/*": ["./src/*"],

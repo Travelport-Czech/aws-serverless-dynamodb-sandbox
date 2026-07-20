@@ -1,20 +1,11 @@
 import { expect, test } from 'vitest';
-import axios from 'axios';
-import * as fs from 'fs';
+import { Resource } from 'sst';
 
-const url = (
-  JSON.parse(fs.readFileSync('outputs.json', 'utf8')) as {
-    ServiceEndpoint: string;
-  }
-).ServiceEndpoint;
+const url = Resource.Api.url;
 
 test('/error should return success response', async () => {
-  const response = await axios({
-    method: 'get',
-    url: `${url}/error`,
-    validateStatus: () => true,
-  });
+  const response = await fetch(`${url}/error`);
 
-  expect(response.status).toEqual(500);
-  expect(response.data).toEqual('Internal error');
+  expect(response.status).toBe(500);
+  await expect(response.text()).resolves.toBe('Internal error');
 });

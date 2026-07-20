@@ -1,9 +1,13 @@
 node_modules
 jspm_packages
 .serverless
+.sst
 .esbuild
 .dist
 .dynamodb
+.env
+.env.*
+coverage
 .idea
 outputs.json
 yarn-error.log

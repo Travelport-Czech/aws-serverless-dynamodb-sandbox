@@ -1,59 +1,110 @@
-# AWS Serverless DynamoDB Sandbox
+# AWS DynamoDB Sandbox
 
-Example of the simple AWS serverless application with DynamoDB, Typescript and tests.
+Example AWS application built with SST v4, TypeScript, API Gateway, Lambda,
+and DynamoDB.
 
-## Contains
+## Architecture
 
-* Lambdas in typescript (see [src/handlers/](src/handlers/))
-* Working with DynamoDB (see [src/database/taskRepository.ts](src/database/taskRepository.ts))
-* [ZOD validation library](https://zod.dev/)
-* Local environment (run `npm run offline`)
-* Serverless with configuration in typescript (see [serverless.ts](serverless.ts))
-* Tests on offline environment and local database (run `npm run test:offline`, see [src/handlers/addTask.test.offline.ts](src/handlers/addTask.test.offline.ts))
-* Tests on AWS (run `AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=... npm run test:e2e`, see [src/handlers/addTask.test.e2e.ts](src/handlers/addTask.test.e2e.ts))
-* Simple custom authorizer, allows to add multiple access tokens and define custom allowed endpoints (see [src/handlers/authorizer.ts](src/handlers/authorizer.ts)) 
-* AWS SDK version 3 (see [src/database/createDynamoDbDocumentClient.ts](src/database/createDynamoDbDocumentClient.ts))
-* Source maps for debugging typescript in AWS 
+- SST v4 infrastructure in `sst.config.ts` and `infra/`
+- API Gateway REST API with three routes:
+  - `GET /status`
+  - `GET /error`
+  - `POST /task`
+- Lambda request authorizer for `POST /task`
+- The task Lambda can only call `PutItem` on its DynamoDB table
+- Access token stored as an SST secret
+- Node.js 22 Lambda runtime with source maps, X-Ray tracing, and one-month log
+  retention
 
-![Source maps in AWS](assets/sourcemaps_in_aws.png)
+Production resources are protected and retained. Resources in other stages are
+removed by `sst remove`.
 
-* XRAY
+## Prerequisites
 
-![XRAY](assets/xray_detail.png)
+- Node.js 22
+- npm
+- AWS credentials supported by the AWS SDK
 
-## Prepare development enviroment
+Install dependencies:
 
-* Clone project
-* Install dependencies
 ```bash
-> npm ci
+npm ci
 ```
-* Install local database
+
+## Configure a stage
+
+Set the authorizer token without committing it:
+
 ```bash
-> npx sls dynamodb install
-``` 
-* Run offline
+npx sst secret set AccessToken <token> --stage <stage>
+```
+
+Use a separate token for each stage.
+
+## Development
+
+Start SST development mode:
+
 ```bash
-> npm run offline
-```
-* Send POST request to
-```
-POST http://localhost:3000/task
-
-data:
-
-{
-    "description": "my value" 
-}
+npm run dev -- --stage <stage>
 ```
 
-### Deploy
+SST provisions an isolated API and DynamoDB table for the selected stage and
+runs Lambda changes in development mode.
 
-Run:
-```
-> AWS_ACCESS_KEY_ID=... AWS_SECRET_ACCESS_KEY=... npm run start
+## Tests
+
+Run unit tests:
+
+```bash
+npm test
 ```
 
-### Todo
-* add endpoints for remove task, list tasks and update task
-* add tests and lint to GitHub actions
+Run type checking and linting:
+
+```bash
+npm run lint
+```
+
+Run end-to-end tests against an active or deployed SST stage:
+
+```bash
+npx sst shell --stage <stage> -- npm run test:e2e
+```
+
+`sst shell` exposes the linked API URL and access token to the tests.
+
+## Deploy
+
+Deploy a disposable stage first:
+
+```bash
+npm run deploy -- --stage migration-test
+```
+
+Deploy production only after the migration-test stage passes:
+
+```bash
+npm run deploy -- --stage production
+```
+
+For the production cutover:
+
+1. Record the existing API endpoint and confirm whether the Serverless
+   Framework `items` table contains data.
+2. Deploy and test the `migration-test` SST stage.
+3. Set the production secret and deploy the `production` SST stage.
+4. Copy required records from the old table to the new `ItemsTableName`
+   output.
+5. Switch clients to the new `ApiEndpoint` output and run the end-to-end tests.
+6. Remove the old stack only after the new API and data are verified.
+
+Remove a non-production stage:
+
+```bash
+npm run remove -- --stage migration-test
+```
+
+The previous Serverless Framework stack is not adopted automatically. This
+keeps the SST deployment reversible and prevents an accidental deletion of the
+existing table during migration.

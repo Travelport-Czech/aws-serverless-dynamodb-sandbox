@@ -19,30 +19,26 @@ const unmarshallOptions = {
 
 export const createDynamoDbDocumentClient = () => {
   const config = getConfig();
-
-  if (config.isOffline) {
-    const ddbClient = new DynamoDBClient({
-      endpoint: 'http://localhost:3001',
-      region: 'eu-central-1',
-    });
-    return DynamoDBDocumentClient.from(ddbClient, {
-      marshallOptions,
-      unmarshallOptions,
-    });
-  }
-
   const ddbClientWithoutXray = new DynamoDBClient({
+    ...(config.dynamoDb.endpoint
+      ? {
+          credentials: {
+            accessKeyId: 'local',
+            secretAccessKey: 'local',
+          },
+          endpoint: config.dynamoDb.endpoint,
+        }
+      : {}),
     region: config.region,
   });
 
-  // set DISABLE_XRAY to true, if it is run in vitest
-  return DynamoDBDocumentClient.from(
-    process.env.DISABLE_XRAY === 'true'
+  const ddbClient =
+    process.env.DISABLE_XRAY === 'true' || config.dynamoDb.endpoint
       ? ddbClientWithoutXray
-      : AWSXRay.captureAWSv3Client(ddbClientWithoutXray),
-    {
-      marshallOptions,
-      unmarshallOptions,
-    },
-  );
+      : AWSXRay.captureAWSv3Client(ddbClientWithoutXray);
+
+  return DynamoDBDocumentClient.from(ddbClient, {
+    marshallOptions,
+    unmarshallOptions,
+  });
 };
